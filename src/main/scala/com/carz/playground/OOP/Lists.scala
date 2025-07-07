@@ -2,7 +2,7 @@ package com.carz.playground.OOP
 
 import scala.Int.unbox
 
-object ListsDemo {
+object Lists {
   // single linked list
   val aList: List[Int] = List(1,2,3) // List.apply(1,2,3)
   val biggerList = 5 :: aList // add element at first position [5, 1, 2, 3] returns new List
@@ -96,6 +96,31 @@ object ListsDemo {
   // [12, 987] => [[1,2], [9,8,7]] => [1,2,9,8,7]
   val complexFlatMap = anotherList.flatMap(x => digits(x))
 
+  // List Comprehensions
+  val numbers = List(1,2,3,4)
+  val colors = List("black", "white", "blue")
+  // List(1-black, 1-white, 1-blue, 2-black, 2-white, 2-blue, 3-black, 3-white, 3-blue, 4-black, 4-white, 4-blue)
+  val combinations = numbers.flatMap(n => colors.map(c => s"$n-$c"))
+
+  // This is an expression, "for every number in numbers and for every color in colors generate s"$n-$c"
+  val combinations_2 = for {
+    n <- numbers // <-- generator
+    c <- colors
+  } yield s"$n-$c"
+
+  def generateLetters(letter: Char): List[Char] = {
+    if (letter == 'A') List('A')
+    else generateLetters((letter.toInt - 1).toChar):+ letter
+  }
+
+  // Generate a Chessboard
+  val numbers2 = generateNumbers(8)
+  val letters = generateLetters('H')
+  // List(A1, B1, C1, D1, E1, F1,..., H8)
+  val chessboard = for {
+    n <- numbers2
+    l <- letters
+  } yield s"$l$n"
 
 
   def main(args: Array[String]): Unit = {
@@ -114,6 +139,9 @@ object ListsDemo {
     println(s"complexFlatMap ${complexFlatMap.mkString("[", ",", "]")}")
     println(s"numbersList: ${numbersList.mkString("[", ",", "]")}")
     println(s"primeNumbers(numbersList): ${primeNumbers.mkString("[", ",", "]")}")
+    println(s"combinations: $combinations")
+    println(s"combinations_2: $combinations_2")
+    println(s"letter_combinations: $chessboard")
   }
 
 }
